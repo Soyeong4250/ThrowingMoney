@@ -10,24 +10,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Table(name = "chatroom")
 @Setter @Getter
 @NoArgsConstructor
 public class ChatRoom {
 
     @Id
+    @Column(name = "chatroom_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "X-ROOM-ID")
     private Long id;
 
-    boolean openChat;
+//    private boolean openChat;  // 오픈 채팅 여부
 
-    @OneToMany (mappedBy = "chatroom_id")
+    @OneToMany(mappedBy = "chatroom")
     private List<User> participants = new ArrayList<>();
 
     @Builder
-    public ChatRoom(Long id, boolean openChat, List<User> participants) {
+    public ChatRoom(Long id, List<User> participants) {
         this.id = id;
-        this.openChat = openChat;
         this.participants = participants;
     }
 }

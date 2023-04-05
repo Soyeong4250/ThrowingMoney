@@ -13,7 +13,6 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "X-USER-ID")
     private Integer id;
 
     private String name;
@@ -28,10 +27,11 @@ public class User {
 
     private String account;
 
-    private Long money;
+    private Long money;  // 현재 보유 금액
 
-    @ManyToOne
-    MoneyInfo moneyInfo;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "chatroom_id")
+    private ChatRoom chatroom;
 
     @Builder
     public User(Integer id, String name, String email, String kakaoId, String bank, String account, Long money) {
