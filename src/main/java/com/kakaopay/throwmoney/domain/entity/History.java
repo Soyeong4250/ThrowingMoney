@@ -1,10 +1,7 @@
 package com.kakaopay.throwmoney.domain.entity;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,20 +9,25 @@ import java.util.List;
 @Entity
 @Getter @Setter
 @NoArgsConstructor
-public class History {
+@EqualsAndHashCode(callSuper = true)
+public class History extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private Long id;
 
     @OneToOne
-    private Sender sender;
+    private Send sender;
 
-    @OneToMany(mappedBy = "history", cascade = CascadeType.REMOVE)
-    private List<Receiver> receivers = new ArrayList<>();
+    @OneToMany(mappedBy = "history")
+    private List<Receive> receivers = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name = "chatroom_id")
+    private ChatRoom chatroom;
 
     @Builder
-    public History(String id, Sender sender, List<Receiver> receivers) {
+    public History(Long id, Send sender, List<Receive> receivers) {
         this.id = id;
         this.sender = sender;
         this.receivers = receivers;

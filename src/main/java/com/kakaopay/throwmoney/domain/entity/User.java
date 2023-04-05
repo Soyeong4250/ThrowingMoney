@@ -1,15 +1,13 @@
 package com.kakaopay.throwmoney.domain.entity;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Setter @Getter
 @NoArgsConstructor
-public class User {
+@EqualsAndHashCode(callSuper = true)
+public class User extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,14 +25,14 @@ public class User {
 
     private String account;
 
-    private Long money;  // 현재 보유 금액
+    private int money;  // 현재 보유 금액
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "chatroom_id")
     private ChatRoom chatroom;
 
     @Builder
-    public User(Integer id, String name, String email, String kakaoId, String bank, String account, Long money) {
+    public User(Integer id, String name, String email, String kakaoId, String bank, String account, int money) {
         this.id = id;
         this.name = name;
         this.email = email;

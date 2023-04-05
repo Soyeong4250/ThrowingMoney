@@ -1,16 +1,13 @@
 package com.kakaopay.throwmoney.domain.entity;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
-@Setter
-@Getter
+@Setter @Getter
 @NoArgsConstructor
-public class Message {
+@EqualsAndHashCode(callSuper = true)
+public class Message extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

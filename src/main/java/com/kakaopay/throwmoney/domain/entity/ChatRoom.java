@@ -1,10 +1,7 @@
 package com.kakaopay.throwmoney.domain.entity;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +10,8 @@ import java.util.List;
 @Table(name = "chatroom")
 @Setter @Getter
 @NoArgsConstructor
-public class ChatRoom {
+@EqualsAndHashCode(callSuper = true)
+public class ChatRoom extends BaseEntity {
 
     @Id
     @Column(name = "chatroom_id")
@@ -24,6 +22,9 @@ public class ChatRoom {
 
     @OneToMany(mappedBy = "chatroom")
     private List<User> participants = new ArrayList<>();
+
+    @OneToMany(mappedBy = "chatroom", cascade = CascadeType.REMOVE)
+    private List<History> histories = new ArrayList<>();
 
     @Builder
     public ChatRoom(Long id, List<User> participants) {
