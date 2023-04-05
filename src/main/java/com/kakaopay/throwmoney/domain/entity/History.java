@@ -1,13 +1,16 @@
 package com.kakaopay.throwmoney.domain.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Getter @Setter
+@Getter
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class History extends BaseEntity {

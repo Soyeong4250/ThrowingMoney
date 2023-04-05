@@ -1,14 +1,17 @@
 package com.kakaopay.throwmoney.domain.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "chatroom")
-@Setter @Getter
+@Getter
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class ChatRoom extends BaseEntity {

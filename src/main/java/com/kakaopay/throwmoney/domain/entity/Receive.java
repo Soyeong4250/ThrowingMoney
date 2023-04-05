@@ -1,10 +1,13 @@
 package com.kakaopay.throwmoney.domain.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
-@Setter @Getter
+@Getter
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class Receive extends BaseEntity {
