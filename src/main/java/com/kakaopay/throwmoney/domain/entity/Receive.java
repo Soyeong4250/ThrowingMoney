@@ -16,7 +16,6 @@ public class Receive extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
     private String token;
 
     private int receiveMoney;  // 받을 금액
