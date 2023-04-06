@@ -30,9 +30,10 @@ public class Send extends BaseEntity {
     private User user;  // 뿌린 사람 정보
 
     @Builder
-    public Send(Long id, String token, int money, int remainAmount, User user) {
+    public Send(Long id, String token, int cnt, int money, int remainAmount, User user) {
         this.id = id;
         this.token = token;
+        this.cnt = cnt;
         this.money = money;
         this.remainAmount = remainAmount;
         this.user = user;

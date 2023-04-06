@@ -18,15 +18,15 @@ public class User extends BaseEntity {
 
     private String name;
 
+    @Column(unique = true)
     private String email;
 
+    @Column(unique = true)
     private String kakaoId;
 
-    private String password;
+//    private String bank;
 
-    private String bank;
-
-    private String account;
+//    private String account;
 
     private int money;  // 현재 보유 금액
 
@@ -35,13 +35,15 @@ public class User extends BaseEntity {
     private ChatRoom chatroom;
 
     @Builder
-    public User(Integer id, String name, String email, String kakaoId, String bank, String account, int money) {
+    public User(Integer id, String name, String email, String kakaoId, int money) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.kakaoId = kakaoId;
-        this.bank = bank;
-        this.account = account;
         this.money = money;
+    }
+
+    public void setMoney(int sendMoney) {
+        this.money -= sendMoney;
     }
 }
