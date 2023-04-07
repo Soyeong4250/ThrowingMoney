@@ -44,6 +44,6 @@ public class User extends BaseEntity {
     }
 
     public void setMoney(int sendMoney) {
-        this.money -= sendMoney;
+        this.money = sendMoney;
     }
 }

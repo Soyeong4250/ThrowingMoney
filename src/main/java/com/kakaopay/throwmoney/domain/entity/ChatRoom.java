@@ -21,13 +21,9 @@ public class ChatRoom extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    private boolean openChat;  // 오픈 채팅 여부
-
     @OneToMany(mappedBy = "chatroom")
     private List<User> participants = new ArrayList<>();
 
-    @OneToMany(mappedBy = "chatroom", cascade = CascadeType.REMOVE)
-    private List<History> histories = new ArrayList<>();
 
     @Builder
     public ChatRoom(Long id, List<User> participants) {

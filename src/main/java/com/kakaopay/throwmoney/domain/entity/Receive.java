@@ -26,10 +26,6 @@ public class Receive extends BaseEntity {
     @JoinColumn(name = "user_id")
     private User user;  // 받은 사람 정보
 
-    @ManyToOne
-    @JoinColumn(name = "history_id")
-    private History history;  // 기록
-
     @Builder
     public Receive(Long id, String token, Integer receiveMoney, User user) {
         this.id = id;
@@ -37,5 +33,9 @@ public class Receive extends BaseEntity {
         this.receiveMoney = receiveMoney;
         this.user = user;
         this.confirm = false;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

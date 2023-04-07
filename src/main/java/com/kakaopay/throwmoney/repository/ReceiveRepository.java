@@ -9,6 +9,8 @@ import java.util.List;
 
 @Repository
 public interface ReceiveRepository extends JpaRepository<Receive, Long> {
-    
+
     List<Receive> findByTokenAndUserNotNull(@Param("token") String token);
+
+    List<Receive> findByToken(String token);
 }

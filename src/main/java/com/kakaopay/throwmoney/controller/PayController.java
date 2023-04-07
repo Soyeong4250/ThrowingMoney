@@ -36,4 +36,14 @@ public class PayController {
         String token = payService.throwMoney(userId, roomId, throwReq);
         return Response.success(String.format("생성된 token은 %s 입니다.", token));
     }
+
+    // 받기
+    @PostMapping("/receive")
+    public Response<String> receiveMoney(@RequestHeader(value = "X-USER-ID") Integer userId,
+                                         @RequestHeader(value ="X-ROOM-ID") Long roomId,
+                                         @RequestParam String token) {
+        log.info("받기");
+        int receiveMoney = payService.receiveMoney(userId, roomId, token);
+        return Response.success(receiveMoney + "원 받기가 완료되었습니다.");
+    }
 }
