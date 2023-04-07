@@ -1,6 +1,5 @@
 package com.kakaopay.throwmoney.controller;
 
-import com.kakaopay.throwmoney.domain.dto.FindInfoReq;
 import com.kakaopay.throwmoney.domain.dto.FindInfoRes;
 import com.kakaopay.throwmoney.domain.dto.Response;
 import com.kakaopay.throwmoney.domain.dto.ThrowReq;
@@ -22,9 +21,9 @@ public class PayController {
     @GetMapping("/record")
     public Response<FindInfoRes> getRecord(@RequestHeader(value = "X-USER-ID") Integer userId,
                                            @RequestHeader(value = "X-ROOM-ID") Long roomId,
-                                           @RequestBody FindInfoReq findInfoReq) {
+                                           @RequestParam String token) {
         log.info("조회");
-        FindInfoRes record = payService.findByToken(userId, roomId, findInfoReq.getToken());
+        FindInfoRes record = payService.findByToken(userId, roomId, token);
         return Response.success(record);
     }
 

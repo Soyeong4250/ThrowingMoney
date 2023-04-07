@@ -1,6 +1,7 @@
 package com.kakaopay.throwmoney.service;
 
 import com.kakaopay.throwmoney.domain.dto.FindInfoRes;
+import com.kakaopay.throwmoney.domain.dto.ReceiveInfo;
 import com.kakaopay.throwmoney.domain.dto.ThrowReq;
 import com.kakaopay.throwmoney.domain.entity.ChatRoom;
 import com.kakaopay.throwmoney.domain.entity.Receive;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -47,15 +49,26 @@ public class PayService {
         Send send = sendRepository.findByToken(token)
                 .orElseThrow(() -> new ApplicationException(ErrorCode.INVALID_TOKEN, "유효하지 않은 토큰입니다."));
 
-        if(send.getUser().getId() != userId) {
-            throw new ApplicationException(ErrorCode.FORBIDDEN_ACCESS, "접근권한이 없습니다.");
-        } else if(send.getCreateAt().plusDays(7).isBefore(LocalDateTime.now())) {
+        if(send.getCreateAt().plusDays(7).isBefore(LocalDateTime.now())) {
             throw new ApplicationException(ErrorCode.INVALID_TOKEN, "토큰이 만료되었습니다.");
+        } else if(send.getUser().getId() != userId) {
+            throw new ApplicationException(ErrorCode.FORBIDDEN_ACCESS, "접근권한이 없습니다.");
         }
 
-        List<Receive> receiveList = receiveRepository.findByToken(token);
+        List<Receive> receiveList = receiveRepository.findByTokenAndUserNotNull(token);
+        log.info("receiveList.size = {}", receiveList.size());
+        FindInfoRes findInfoRes = FindInfoRes.of(send);
+        List<ReceiveInfo> receiveInfoList = new ArrayList<>();
 
-        return FindInfoRes.of(send, receiveList);
+        if(receiveList.size() != 0) {
+            log.info("비어있니");
+            receiveList.forEach(r -> {
+                receiveInfoList.add(new ReceiveInfo(r.getReceiveMoney(), r.getUser().getKakaoId()));
+            });
+        }
+        findInfoRes.setReceiverList(receiveInfoList);
+
+        return findInfoRes;
     }
 
     @Transactional
@@ -87,13 +100,20 @@ public class PayService {
             }
         }
 
-        sendRepository.save(Send.builder()
-//                .token(token)
+        Send sender = Send.builder()
+                .token(token)
                 .cnt(throwReq.getCnt())
                 .money(throwReq.getSendMoney())
                 .remainAmount(throwReq.getSendMoney())
                 .user(user)
-                .build());
+                .build();
+
+        sendRepository.save(sender);
+
+//        historyRepository.save(History.builder()
+//                .sender(sender)
+//                .chatroom(chatRoom)
+//                .build());
 
         // 뿌리기
         divideMoney(token, throwReq.getSendMoney(), throwReq.getCnt());
