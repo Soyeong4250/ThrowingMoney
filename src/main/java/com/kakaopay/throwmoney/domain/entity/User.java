@@ -43,7 +43,8 @@ public class User extends BaseEntity {
         this.money = money;
     }
 
-    public void setMoney(int sendMoney) {
-        this.money = sendMoney;
+    public void setMoney(int money) {
+        this.money = money;
     }
+
 }

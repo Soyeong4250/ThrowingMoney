@@ -29,13 +29,20 @@ public class Send extends BaseEntity {
     @JoinColumn(name = "user_id")
     private User user;  // 뿌린 사람 정보
 
+    private boolean expiredDate;
+
     @Builder
-    public Send(Long id, String token, int cnt, int money, int remainAmount, User user) {
+    public Send(Long id, String token, int cnt, int money, int remainAmount, User user, boolean expiredDate) {
         this.id = id;
         this.token = token;
         this.cnt = cnt;
         this.money = money;
         this.remainAmount = remainAmount;
         this.user = user;
+        this.expiredDate = false;
+    }
+
+    public void setRemainMoney(int money) {
+        this.remainAmount = money;
     }
 }
