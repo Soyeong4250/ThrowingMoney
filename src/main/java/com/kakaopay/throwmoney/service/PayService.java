@@ -154,15 +154,23 @@ public class PayService {
             throw new ApplicationException(ErrorCode.CORRESPOND_USER_AND_SENDER, "머니를 뿌린 사람은 돈을 받을 수 없습니다.");
         }
 
+        // 머니를 이미 받은 사람인 경우
+        receiveRepository.findByTokenAndUserId(token, userId)
+                .ifPresent(receive -> {
+                    throw new ApplicationException(ErrorCode.ALREADY_RECEIVE, "머니를 이미 받았습니다.");
+                });
+
+
         // 머니를 뿌린지 10분이 지난 경우
         if(send.getCreateAt().plusMinutes(10).isBefore(LocalDateTime.now())) {
             throw new ApplicationException(ErrorCode.INVALID_TOKEN, "머니를 뿌린지 10분이 넘어 돈을 받을 수 없습니다.");
         }
 
+
         // 머니 받기
         int receiveMoney = 0;
         // 이미 머니를 받은 사람인 경우 예외 처리
-        List<Receive> receiveList = receiveRepository.findByToken(token);
+        List<Receive> receiveList = receiveRepository.findByTokenAndUserIsNull(token);
         for (Receive r:receiveList) {
             if(r.getUser() == null) {
                 r.setUser(user);
@@ -171,9 +179,6 @@ public class PayService {
                 send.setRemainMoney(send.getRemainAmount() - receiveMoney);
                 log.info("{}원을 받습니다.", receiveMoney);
                 break;
-            }
-            if(r.getUser().equals(user)) {
-                throw new ApplicationException(ErrorCode.ALREADY_RECEIVE, "머니를 이미 받았습니다.");
             }
         }
 
