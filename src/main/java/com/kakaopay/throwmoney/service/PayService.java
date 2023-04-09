@@ -167,9 +167,12 @@ public class PayService {
             if(r.getUser() == null) {
                 r.setUser(user);
                 receiveMoney = r.getReceiveMoney();
+                user.setMoney(user.getMoney() + receiveMoney);
+                send.setRemainMoney(send.getRemainAmount() - receiveMoney);
                 log.info("{}원을 받습니다.", receiveMoney);
                 break;
-            }else if(r.getUser().equals(user)) {
+            }
+            if(r.getUser().equals(user)) {
                 throw new ApplicationException(ErrorCode.ALREADY_RECEIVE, "머니를 이미 받았습니다.");
             }
         }
